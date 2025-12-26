@@ -126,13 +126,18 @@ index.html<!DOCTYPE html><html lang="en">
       3. Buy on Raydium or Pump.fun<br>
       4. Hold like a thug 💎
     </p>
-    <a href="#" class="btn">Buy on Raydium</a>
-    <a href="#" class="btn alt">Buy on Pump.fun</a>
+    <a href="https://raydium.io/swap/?inputCurrency=sol&outputCurrency=YOUR_TOKEN_ADDRESS" class="btn">
+  Buy on Raydium
+</a>
+<ahref="https://pump.fun/coin/YOUR_TOKEN_ADDRESS" class="btn alt">
+  Buy on Pump.fun</a>
   </div>
 </section><section id="chart">
   <div class="card">
     <h2>Live Chart</h2>
-    <iframe src="about:blank" title="Live Chart Placeholder"></iframe>
+<iframesrc="https://dexscreener.com/solana/YOUR_PAIR_ADDRESS?embed=1&theme=dark" 
+  title="Thugrinch Live Chart">
+</iframe>
     <p style="opacity:0.6">Chart will auto-load once token is live.</p>
   </div>
 </section><section id="community">
@@ -141,8 +146,9 @@ index.html<!DOCTYPE html><html lang="en">
     <p>
       Thugrinch is nothing without the people. Holders are the backbone. Memes are the weapon.
     </p>
-    <a href="#" class="btn">X (Twitter)</a>
-    <a href="#" class="btn alt">Telegram</a>
+<a href="https://x.com/THUGRINCHONSOL" class="btn"> X (Twitter)
+  </a>
+<a href="https://t.me/thugrinch" class="btn alt">Telegram</a>
   </div>
 </section><section id="holders">
   <div class="card">
@@ -159,7 +165,8 @@ index.html<!DOCTYPE html><html lang="en">
     <p>
       Connect your Solana wallet to prepare for launch. Phantom & Solflare supported.
     </p>
-    <button class="btn" onclick="alert('Wallet connect activates once deployed & token is live');">Connect Wallet</button>
+  <button class="btn" onclick="connectWallet()">Connect Wallet</button>
+<p id="walletStatus" style="margin-top:10px; opacity:0.8;"></p>
   </div>
 </section><section id="trust">
   <div class="card">
@@ -183,7 +190,7 @@ index.html<!DOCTYPE html><html lang="en">
 </section><footer>
   © 2025 Thugrinch. Built for holders. Powered by memes.
 </footer><script>
-  // COUNTDOWN TIMER (SET LAUNCH DATE HERE)
+  // COUNTDOWN TIMER (Set launch date here)
   const launchDate = new Date("2025-12-27T20:00:00Z").getTime();
   const countdownEl = document.getElementById("countdown");
 
@@ -205,3 +212,29 @@ index.html<!DOCTYPE html><html lang="en">
   }, 1000);
 </script></body>
 </html>
+<script>
+  async function connectWallet() {
+    const status = document.getElementById("walletStatus");
+
+    try {
+      if ("solana" in window) {
+        const provider = window.solana;
+
+        if (provider.isPhantom || provider.isSolflare) {
+          const response = await provider.connect();
+          const walletAddress = response.publicKey.toString();
+
+          status.innerHTML = "✅ Wallet Connected:<br>" + walletAddress;
+          console.log("Connected wallet:", walletAddress);
+        } else {
+          status.innerHTML = "❌ Please install Phantom or Solflare wallet.";
+        }
+      } else {
+        status.innerHTML = "❌ Solana wallet not found. Install Phantom.";
+      }
+    } catch (err) {
+      console.error(err);
+      status.innerHTML = "⚠️ Wallet connection cancelled.";
+    }
+  }
+</script>
